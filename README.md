@@ -4,7 +4,7 @@ These are shared GitHub workflows used by my repositories.
 
 ## poetry-build-and-test
 
-This implements the standard build and test process for my Python libraries and utilities.
+Implements the standard build and test process for my Python libraries and utilities.
 
 Example workflow:
 
@@ -52,6 +52,6 @@ The default test suite command is:
 poetry run tox -c .toxrc -e 'checks,coverage'
 ```
 
-If you need something complicated, it's best to extract a script to somewhere in the repository and invoke that in the `test-suite-command`.
+If you need a different command and it's more complicate than a single line like this, it's best to extract a script to somewhere in the repository and invoke that in the `test-suite-command`.
 
 The matrix versions are passed in as JSON strings because GitHub Actions does not support workflow inputs of type array.  As of this writing (October of 2022), passing in JSON like this is the [most highly rated solution solution](https://github.com/community/community/discussions/11692?sort=top#discussioncomment-3541856).
