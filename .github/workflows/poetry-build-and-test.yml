@@ -4,16 +4,16 @@ on:
   workflow_call:
     inputs:
       matrix-os-version:
-        description: "JSON string array, a list of operating systems for the matrix build"
+        description: "JSON array as a string, a list of operating systems for the matrix build"
         required: true
         type: string
       matrix-python-version:
-        description: "JSON string array, a list of Python versions for the matrix build"
+        description: "JSON array as a string, a list of Python versions for the matrix build"
         required: true
         type: string
       poetry-version:
         description: "Version of Poetry to use for the build (>=1.2.0)"
-        required: false
+        required: true
         type: string
       poetry-plugins:
         description: "Comma-separated list of Poetry plugins to install"
