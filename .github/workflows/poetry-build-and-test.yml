@@ -70,7 +70,7 @@ jobs:
         run: |
           # Install dependencies
           poetry install --sync --no-interaction
-      - name: Run Tox test suite
+      - name: Run test suite
         shell: bash
         run: |
           # Run the test suite
