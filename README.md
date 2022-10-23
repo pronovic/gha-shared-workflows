@@ -24,7 +24,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build-and-test:
-    uses: pronovic/gha-shared-workflows/.github/workflows/poetry-build-and-test.yml@v1
+    uses: pronovic/gha-shared-workflows/.github/workflows/poetry-build-and-test.yml@v2
     secrets: inherit
     with:
       matrix-os-version: "[ 'ubuntu-latest', 'macos-latest', 'windows-latest' ]"
@@ -46,12 +46,12 @@ The following input parameters are accepted:
 |`timeout-minutes`|Number|No|Job timeout in minutes|
 |`test-suite-command`|String|No|Shell command used to execute the test suite|
 
-The default test suite command is:
+The default test suite command for `v2` of the shared workflow is:
 
 ```
-poetry run tox -c .toxrc -e 'checks,coverage'
+./run suite
 ```
 
-If you need a different command and it's more complicate than a single line like this, it's best to extract a script to somewhere in the repository and invoke that in the `test-suite-command`.
+If you need a different command, and it's more complicated than a single line like this, it's best to extract a script to somewhere in the repository and invoke script that in the `test-suite-command`.  However, in any repo that follows the standard `run` script convention, it's best just to adjust the `suite` task to do what you need.
 
 The matrix versions are passed in as JSON strings because GitHub Actions does not support workflow inputs of type array.  As of this writing (October of 2022), passing in JSON like this is the [most highly rated solution solution](https://github.com/community/community/discussions/11692?sort=top#discussioncomment-3541856).
