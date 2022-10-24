@@ -34,7 +34,7 @@ on:
         description: "Shell command used to execute the test suite"
         required: false
         type: string
-        default: "poetry run tox -c .toxrc -e 'checks,coverage'"
+        default: "./run suite"
       timeout-minutes:
         description: "Job timeout in minutes"
         required: false
