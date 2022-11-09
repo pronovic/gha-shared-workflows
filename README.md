@@ -44,6 +44,7 @@ The following input parameters are accepted:
 |`poetry-cache-venv`|Boolean|No|Whether to cache the Poetry virtualenv; defaults to `true`|
 |`poetry-cache-install`|Boolean|No|Whether to cache the Poetry install; defaults to `true`|
 |`timeout-minutes`|Number|No|Job timeout in minutes|
+|`enable-coveralls`|Boolean|No|Whether to enable coverage reporting to coveralls.io; defaults to `true`|
 |`test-suite-command`|String|No|Shell command used to execute the test suite|
 
 The default test suite command for `v2` of the shared workflow is:

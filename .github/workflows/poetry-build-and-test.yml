@@ -40,6 +40,11 @@ on:
         required: false
         type: number
         default: 30
+      enable-coveralls:
+        description: "Whether to enable coverage reporting to coveralls.io"
+        required: false
+        type: boolean
+        default: true
 jobs:
   build:
     strategy:
@@ -76,6 +81,7 @@ jobs:
           # Run the test suite
           ${{ inputs.test-suite-command }}
       - name: Upload coverage data to coveralls.io
+        if: "${{ inputs.enable-coveralls }}"
         shell: bash
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
@@ -86,6 +92,7 @@ jobs:
           poetry run coveralls --service=github
   coveralls:
     name: Indicate completion to coveralls.io
+    if: "${{ inputs.enable-coveralls }}"
     needs: build
     runs-on: ubuntu-latest
     container: python:3-slim
