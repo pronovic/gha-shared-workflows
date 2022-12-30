@@ -42,8 +42,8 @@ on:
         type: boolean
         default: false
 jobs:
-  release:
-    name: "Release"
+  publish:
+    name: "Publish"
     defaults:
       run:
         shell: bash
