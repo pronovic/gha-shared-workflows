@@ -72,9 +72,9 @@ jobs:
       - name: Generate release notes
         run: |
           # Generate release notes
-          echo "## Changes" > changes.md
-          sed -n '/^Version /{:a;n;/^Version /q;p;$!ba}' Changelog | sed '/^$/d' | sed 's/^\s*\*/-/' | sed 's/\.$//' >> changes.md
-          cat changes.md
+          echo "## Changes" > "${{ runner.temp }}/changes.md"
+          sed -n '/^Version /{:a;n;/^Version /q;p;$!ba}' Changelog | sed 's/^\s*\*/-/' | sed 's/\.$//' >> "${{ runner.temp }}/changes.md"
+          cat "${{ runner.temp }}/changes.md"
       - name: Build artifacts
         run: |
           # Build artifacts
@@ -82,7 +82,7 @@ jobs:
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
-          name: "Release ${{ env.GITHUB_REF_NAME }}"
-          body_path: changes.md
+          name: "Release ${{ github.ref_name }}"
+          body_path: "${{ runner.temp }}/changes.md"
           files: 'dist/*'
           fail_on_unmatched_files: true
