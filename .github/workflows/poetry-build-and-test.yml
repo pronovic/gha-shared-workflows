@@ -47,6 +47,7 @@ on:
         default: true
 jobs:
   build:
+    name: "Build"
     strategy:
       matrix:
         os: "${{ fromJson(inputs.matrix-os-version) }}"
@@ -71,18 +72,15 @@ jobs:
           cache-venv: "${{ inputs.poetry-cache-venv }}"
           cache-poetry: "${{ inputs.poetry-cache-install }}"
       - name: Install dependencies
-        shell: bash
         run: |
           # Install dependencies
           poetry install --sync --no-interaction
       - name: Run test suite
-        shell: bash
         run: |
           # Run the test suite
           ${{ inputs.test-suite-command }}
       - name: Upload coverage data to coveralls.io
         if: "${{ inputs.enable-coveralls }}"
-        shell: bash
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           COVERALLS_FLAG_NAME: "${{ runner.os }}-python${{ matrix.python }}"
@@ -98,7 +96,6 @@ jobs:
     container: python:3-slim
     steps:
     - name: Finished
-      shell: bash
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       run: |

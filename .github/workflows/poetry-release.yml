@@ -42,7 +42,8 @@ on:
         type: boolean
         default: false
 jobs:
-  build:
+  release:
+    name: "Release"
     defaults:
       run:
         shell: bash
