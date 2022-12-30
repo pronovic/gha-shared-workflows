@@ -16,7 +16,7 @@ on:
         required: true
         type: string
       poetry-plugins:
-        description: "Comma-separated list of Poetry plugins to install"
+        description: "Comma-separated list of Poetry plugins to install, in addition to poetry-dynamic-versioning"
         required: false
         type: string
         default: ""
@@ -68,7 +68,7 @@ jobs:
         uses: pronovic/setup-poetry@v1
         with:
           version: "${{ inputs.poetry-version }}"
-          plugins: "${{ inputs.poetry-plugins }}"
+          plugins: "poetry-dynamic-versioning[plugin]:0.21.3,${{ inputs.poetry-plugins }}"
           cache-venv: "${{ inputs.poetry-cache-venv }}"
           cache-poetry: "${{ inputs.poetry-cache-install }}"
       - name: Install dependencies
