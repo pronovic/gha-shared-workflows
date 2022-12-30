@@ -79,6 +79,13 @@ jobs:
         run: |
           # Build artifacts
           ./run build
+      - name: Publish to PyPI
+        if: "${{ inputs.publish-pypi }}"
+        env:
+          POETRY_PYPI_TOKEN_PYPI: "${{ secrets.PYPI_TOKEN }}"
+        run: |
+          # Publish to PyPI
+          poetry publish
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
