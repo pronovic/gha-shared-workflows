@@ -1,0 +1,72 @@
+# vim: set ft=yaml ts=2 sw=2:
+name: Release
+on:
+  workflow_call:
+    inputs:
+      os-version:
+        description: "Operating system to use for the build"
+        required: false
+        type: string
+        default: "ubuntu-latest"
+      python-version:
+        description: "Version of Python to use for the build"
+        required: true
+        type: string
+      poetry-version:
+        description: "Version of Poetry to use for the build (>=1.2.0)"
+        required: true
+        type: string
+      poetry-plugins:
+        description: "Comma-separated list of Poetry plugins to install, in addition to poetry-dynamic-versioning"
+        required: false
+        type: string
+        default: ""
+      poetry-cache-venv:
+        description: "Whether to cache the Poetry virtualenv"
+        required: false
+        type: boolean
+        default: true
+      poetry-cache-install:
+        description: "Whether to cache the Poetry install"
+        required: false
+        type: boolean
+        default: true
+      timeout-minutes:
+        description: "Job timeout in minutes"
+        required: false
+        type: number
+        default: 30
+      publish-pypi:
+        description: "Whether to publish artifacts to PyPI"
+        required: false
+        type: boolean
+        default: false
+jobs:
+  build:
+    defaults:
+      run:
+        shell: bash
+    runs-on: "${{ inputs.os-version }}"
+    timeout-minutes: "${{ inputs.timeout-minutes }}"
+    steps: 
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "${{ inputs.python-version }}"
+      - name: Setup Poetry
+        uses: pronovic/setup-poetry@v1
+        with:
+          version: "${{ inputs.poetry-version }}"
+          plugins: "poetry-dynamic-versioning[plugin]:0.21.3,${{ inputs.poetry-plugins }}"
+          cache-venv: "${{ inputs.poetry-cache-venv }}"
+          cache-poetry: "${{ inputs.poetry-cache-install }}"
+      - name: Install dependencies
+        run: |
+          # Install dependencies
+          poetry install --sync --no-interaction
+      - name: Build artifacts
+        run: |
+          # Build artifacts
+          ./run build
