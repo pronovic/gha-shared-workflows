@@ -89,7 +89,7 @@ jobs:
           # Upload coverage data to coveralls.io
           poetry run coveralls --service=github
   coveralls:
-    name: Indicate completion to coveralls.io
+    name: "Coveralls"
     if: "${{ inputs.enable-coveralls }}"
     needs: build
     runs-on: ubuntu-latest
