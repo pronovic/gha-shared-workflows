@@ -65,7 +65,7 @@ jobs:
           plugins: "poetry-dynamic-versioning[plugin]:0.21.3,${{ inputs.poetry-plugins }}"
           cache-venv: "${{ inputs.poetry-cache-venv }}"
           cache-poetry: "${{ inputs.poetry-cache-install }}"
-          cache-suffix: "001"
+          cache-suffix: "001"  # safest to bump this when upgrading plugin above
       - name: Install dependencies
         run: |
           # Install dependencies
