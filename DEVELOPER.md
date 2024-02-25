@@ -4,8 +4,8 @@ Releasing is a totally manual process:
 
 ```
 $ git checkout master && git pull
-$ git tag -a -m "Release v3.1.1" v3.1.1
-$ git tag -f -a -m "Release v3.1.1" v3
+$ git tag -a -m "Release v4.0.0" v4.0.0
+$ git tag -f -a -m "Release v4.0.0" v4
 $ git push -f --tags
 ```
 

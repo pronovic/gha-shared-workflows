@@ -59,7 +59,7 @@ jobs:
         with:
           python-version: "${{ inputs.python-version }}"
       - name: Setup Poetry
-        uses: pronovic/setup-poetry@v1
+        uses: pronovic/setup-poetry@v2
         with:
           version: "${{ inputs.poetry-version }}"
           plugins: "poetry-dynamic-versioning[plugin]:1.2.0,${{ inputs.poetry-plugins }}"
