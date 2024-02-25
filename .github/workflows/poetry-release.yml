@@ -69,7 +69,7 @@ jobs:
       - name: Install dependencies
         run: |
           # Install dependencies
-          poetry install --sync --no-interaction
+          ./run install
       - name: Generate release notes
         run: |
           # Generate release notes

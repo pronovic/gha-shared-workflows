@@ -77,7 +77,7 @@ jobs:
       - name: Install dependencies
         run: |
           # Install dependencies
-          poetry install --sync --no-interaction
+          ./run install
       - name: Run test suite
         run: |
           # Run the test suite
