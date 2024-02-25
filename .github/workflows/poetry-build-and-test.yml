@@ -70,7 +70,7 @@ jobs:
         uses: pronovic/setup-poetry@v2
         with:
           version: "${{ inputs.poetry-version }}"
-          plugins: "poetry-dynamic-versioning[plugin]:1.2.0,${{ inputs.poetry-plugins }}"
+          plugins: "poetry-dynamic-versioning==1.2.0,${{ inputs.poetry-plugins }}"
           cache-venv: "${{ inputs.poetry-cache-venv }}"
           cache-poetry: "${{ inputs.poetry-cache-install }}"
           cache-suffix: "002"  # safest to bump this when upgrading plugin above
