@@ -13,8 +13,9 @@ on:
         required: true
         type: string
       poetry-version:
-        description: "Version of Poetry to use for the build (>=1.2.0)"
-        required: true
+        description: "Version of Poetry to use for the build (>=1.8.0)"
+        required: false
+        default: "1.8.2"
         type: string
       poetry-plugins:
         description: "Comma-separated list of Poetry plugins to install, in addition to poetry-dynamic-versioning"
