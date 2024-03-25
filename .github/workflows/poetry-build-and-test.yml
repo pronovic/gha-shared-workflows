@@ -83,3 +83,10 @@ jobs:
         run: |
           # Run the test suite
           ${{ inputs.test-suite-command }}
+      - name: Upload coverage data to coveralls.io
+        # duplicate submissions fail with a 422 error, so only submit on the first run attempt
+        if: "${{ inputs.enable-coveralls && github.run_attempt == '1' }}"
+        uses: coverallsapp/github-action@v2
+        with:
+          flag-name: "${{ runner.os }}-python${{ matrix.python }}"
+          parallel: true
