@@ -91,3 +91,10 @@ jobs:
           flag-name: "${{ runner.os }}-python${{ matrix.python }}"
           parallel: true
           file: ".coverage.lcov"
+  coveralls:
+    name: "Coveralls"
+    # duplicate submissions fail with a 422 error, so only submit on the first run attempt
+    if: "${{ inputs.enable-coveralls && github.run_attempt == '1' }}"
+    uses: coverallsapp/github-action@v2
+    with:
+      parallel-finished: true
