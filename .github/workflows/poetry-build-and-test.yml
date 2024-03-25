@@ -90,3 +90,4 @@ jobs:
         with:
           flag-name: "${{ runner.os }}-python${{ matrix.python }}"
           parallel: true
+          file: ".coverage.lcov"
