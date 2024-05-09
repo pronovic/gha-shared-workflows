@@ -14,12 +14,12 @@ on:
       poetry-version:
         description: "Version of Poetry to use for the build (>=1.8.0)"
         required: false
-        default: "1.8.2"
+        default: "1.8.3"
         type: string
       plugin-version:
         description: "Version of the poetry-dynamic-versioning plugin to use for the build (>=1.2.0)"
         required: false
-        default: "1.2.0"
+        default: "1.3.0"
         type: string
       poetry-plugins:
         description: "Comma-separated list of Poetry plugins to install, in addition to poetry-dynamic-versioning"
