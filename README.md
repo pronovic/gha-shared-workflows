@@ -12,13 +12,16 @@ The following input parameters are accepted:
 |-----|----|--------|-----------|
 |`matrix-os-version`|String|Yes|JSON array as a string, a list of operating systems for the matrix build|
 |`matrix-python-version`|String|Yes|JSON array as a string, a list of Python versions for the matrix build|
-|`poetry-version`|String|Yes|Version of Poetry to use for the build (>=1.2.0)|
+|`poetry-version`|String|No|Version of Poetry to use for the build (>=1.8.0)|
+|`plugin-version`|String|No|Version of the poetry-dynamic-versioning plugin to use for the build (>=1.2.0)|
 |`poetry-plugins`|String|No|Comma-separated list of Poetry plugins to install (in addition to [poetry-dynamic-versioning](https://github.com/mtkennerly/poetry-dynamic-versioning)); defaults to none|
 |`poetry-cache-venv`|Boolean|No|Whether to cache the Poetry virtualenv; defaults to `true`|
 |`poetry-cache-install`|Boolean|No|Whether to cache the Poetry install; defaults to `true`|
 |`timeout-minutes`|Number|No|Job timeout in minutes|
 |`enable-coveralls`|Boolean|No|Whether to enable coverage reporting to coveralls.io; defaults to `true`|
 |`test-suite-command`|String|No|Shell command used to execute the test suite|
+
+The default values for `poetry-version` and `plugin-version` will change as new versions are released. In general, these values are set to to the latest version of each tool that I have tested.  This way, I only need maintain my preferred version in one place.  If you want to upgrade to new versions of these tools on your own schedule, then set these values explicitly in your workflow rather than relying on the defaults.
 
 The default test suite command for `v2` of the shared workflow is:
 
