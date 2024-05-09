@@ -67,6 +67,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
         with:
+          fetch-depth: 1       # we only need the current commit
           fetch-tags: "true"   # fetch tags, needed for poetry-dynamic-versioning
       - name: Setup Python
         uses: actions/setup-python@v5
