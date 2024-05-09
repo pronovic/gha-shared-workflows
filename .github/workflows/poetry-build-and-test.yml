@@ -67,7 +67,11 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # we need this so that tags are pulled; unfortunately it also pulls all history
+          # We need fetch-depth=0 so that tags are pulled.  Unfortunately, this also pulls
+          # along all history, so it's much slower for repos with lots of commits.  I've
+          # experimented with fetch-tags=true, which in theory would let us pull tags
+          # without the hit of fetching all history, but it never works as expected.
+          fetch-depth: 0
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
