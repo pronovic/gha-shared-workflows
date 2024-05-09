@@ -17,6 +17,11 @@ on:
         required: false
         default: "1.8.2"
         type: string
+      plugin-version:
+        description: "Version of the poetry-dynamic-versioning plugin to use for the build (>=1.2.0)"
+        required: false
+        default: "1.2.0"
+        type: string
       poetry-plugins:
         description: "Comma-separated list of Poetry plugins to install, in addition to poetry-dynamic-versioning"
         required: false
@@ -63,10 +68,10 @@ jobs:
         uses: pronovic/setup-poetry@v2
         with:
           version: "${{ inputs.poetry-version }}"
-          plugins: "poetry-dynamic-versioning==1.2.0,${{ inputs.poetry-plugins }}"
+          plugins: "poetry-dynamic-versioning==${{ inputs.plugin-version }},${{ inputs.poetry-plugins }}"
           cache-venv: "${{ inputs.poetry-cache-venv }}"
           cache-poetry: "${{ inputs.poetry-cache-install }}"
-          cache-suffix: "002"  # safest to bump this when upgrading plugin above
+          cache-suffix: "${{ inputs.plugin-version }}"  # safest to bump this when upgrading plugin above
       - name: Install dependencies
         run: |
           # Install dependencies
