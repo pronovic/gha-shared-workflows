@@ -12,7 +12,7 @@ The following input parameters are accepted:
 |-----|----|--------|-------|-----------|
 |`matrix-os-version`|String|Yes||JSON array as a string, a list of operating systems for the matrix build|
 |`matrix-python-version`|String|Yes||JSON array as a string, a list of Python versions for the matrix build|
-|`poetry-version`|String|No|_see below_|Version of Poetry to use for the build (>=1.8.0); see discussion below about default|
+|`poetry-version`|String|No|_see below_|Version of Poetry to use for the build (>=1.8.0)|
 |`plugin-version`|String|No|_see below_|Version of the [poetry-dynamic-versioning](https://github.com/mtkennerly/poetry-dynamic-versioning) plugin to use for the build (>=1.2.0)|
 |`poetry-plugins`|String|No|_none_|Comma-separated list of Poetry plugins to install (in addition to [poetry-dynamic-versioning](https://github.com/mtkennerly/poetry-dynamic-versioning))|
 |`poetry-cache-venv`|Boolean|No|`true`|Whether to cache the Poetry virtualenv|
