@@ -43,16 +43,20 @@ The following input parameters are accepted:
 |-----|----|--------|-----------|
 |`os-version`|String|Yes|Operating system to use for the build|
 |`python-version`|String|Yes|Version of Python to use for the build|
-|`poetry-version`|String|Yes|Version of Poetry to use for the build (>=1.2.0)|
+|`poetry-version`|String|No|Version of Poetry to use for the build (>=1.8.0)|
+|`plugin-version`|String|No|Version of the [poetry-dynamic-versioning](https://github.com/mtkennerly/poetry-dynamic-versioning) plugin to use for the build (>=1.2.0)|
 |`poetry-plugins`|String|No|Comma-separated list of Poetry plugins to install (in addition to [poetry-dynamic-versioning](https://github.com/mtkennerly/poetry-dynamic-versioning)); defaults to none|
 |`poetry-cache-venv`|Boolean|No|Whether to cache the Poetry virtualenv; defaults to `true`|
 |`poetry-cache-install`|Boolean|No|Whether to cache the Poetry install; defaults to `true`|
 |`timeout-minutes`|Number|No|Job timeout in minutes|
 |`publish-pypi`|Boolean|No|Whether to publish artifacts to PyPI; defaults to `false`|
 
+The default values for `poetry-version` and `plugin-version` will change as new versions are released. In general, these values are set to to the latest version of each tool that I have tested.  This way, I only need maintain my preferred version in one place.  If you want to upgrade to new versions of these tools on your own schedule, then set these values explicitly in your workflow rather than relying on the defaults.
+
 ## Example Workflow
 
 ```yaml
+# On GHA, the Linux runners are *much* faster and more reliable, so we only run the full matrix build there
 name: Test Suite
 on:
   push:
@@ -63,47 +67,41 @@ on:
   pull_request:
     branches:
       - master
-  schedule:
-    - cron: '05 17 15 * *'  # 15th of the month at 5:05pm UTC
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   linux-build-and-test:
     name: "Linux"
-    uses: pronovic/gha-shared-workflows/.github/workflows/poetry-build-and-test.yml@v3
+    uses: pronovic/gha-shared-workflows/.github/workflows/poetry-build-and-test.yml@v6
     secrets: inherit
     with:
       matrix-os-version: "[ 'ubuntu-latest' ]"
-      matrix-python-version: "[ '3.7', '3.8', '3.9', '3.10', '3.11' ]"  # run Linux tests on all supported Python versions
-      poetry-version: "1.3.1"
+      matrix-python-version: "[ '3.9', '3.10', '3.11', '3.12' ]"  # run Linux tests on all supported Python versions
       enable-coveralls: true  # only report to coveralls.io for tests that run on Linux
   macos-build-and-test:
     name: "MacOS"
-    uses: pronovic/gha-shared-workflows/.github/workflows/poetry-build-and-test.yml@v3
+    uses: pronovic/gha-shared-workflows/.github/workflows/poetry-build-and-test.yml@v6
     secrets: inherit
     with:
       matrix-os-version: "[ 'macos-latest' ]"
-      matrix-python-version: "[ '3.11' ]"  # only run MacOS tests on latest Python
-      poetry-version: "1.3.1"
+      matrix-python-version: "[ '3.12' ]"  # only run MacOS tests on latest Python
       enable-coveralls: false
   windows-build-and-test:
     name: "Windows"
-    uses: pronovic/gha-shared-workflows/.github/workflows/poetry-build-and-test.yml@v3
+    uses: pronovic/gha-shared-workflows/.github/workflows/poetry-build-and-test.yml@v6
     secrets: inherit
     with:
       matrix-os-version: "[ 'windows-latest' ]"
-      matrix-python-version: "[ '3.11' ]"  # only run Windows tests on latest Python
-      poetry-version: "1.3.1"
+      matrix-python-version: "[ '3.12' ]"  # only run Windows tests on latest Python
       enable-coveralls: false
   release:
     name: "Release"
     if: github.ref_type == 'tag'
-    uses: pronovic/gha-shared-workflows/.github/workflows/poetry-release.yml@v3
+    uses: pronovic/gha-shared-workflows/.github/workflows/poetry-release.yml@v6
     needs: [ linux-build-and-test, macos-build-and-test, windows-build-and-test ]
     secrets: inherit
     with:
-      python-version: "3.8"
-      poetry-version: "1.3.1"
+      python-version: "3.9"  # run release with oldest supported Python version
       publish-pypi: true
 ```
