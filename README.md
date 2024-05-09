@@ -23,7 +23,7 @@ The following input parameters are accepted:
 
 The default values for `poetry-version` and `plugin-version` will change as new versions are released. In general, these values are set to to the latest version of each tool that I have tested.  This way, I only need maintain my preferred version in one place.  If you want to upgrade to new versions of these tools on your own schedule, then set these values explicitly in your workflow rather than relying on the defaults.
 
-The default test suite command for `v2` of the shared workflow is:
+Starting with `v2` of the shared workflow, the default test suite command is:
 
 ```
 ./run suite
