@@ -14,7 +14,7 @@ on:
       poetry-version:
         description: "Version of Poetry to use for the build (>=1.8.0)"
         required: false
-        default: "1.8.3"
+        default: "1.8.4"
         type: string
       plugin-version:
         description: "Version of the poetry-dynamic-versioning plugin to use for the build (>=1.2.0)"
