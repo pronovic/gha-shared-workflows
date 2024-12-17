@@ -3,6 +3,10 @@ name: Release
 on:
   workflow_call:
     inputs:
+      project-name:
+        description: "Simple name of the project, equivalen to PyPI package name"
+        required: true
+        type: string
       os-version:
         description: "Operating system to use for the build"
         required: false
@@ -47,6 +51,11 @@ on:
         required: false
         type: boolean
         default: false
+      publish-env:
+        description: "Name of the publish environment in GitHub Actions"
+        required: false
+        type: string
+        default: "pypi"
 jobs:
   publish:
     name: "Publish"
@@ -55,6 +64,11 @@ jobs:
         shell: bash
     runs-on: "${{ inputs.os-version }}"
     timeout-minutes: "${{ inputs.timeout-minutes }}"
+    environment:
+      name: "{{ inputs.publish-env }}"
+      url: "https://pypi.org/p/{{ inputs.project-name }}"
+    permissions:
+      id-token: write # needed for PyPI trusted publishing
     steps: 
       - name: Check out code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pinned to SHA for v4.2.2
@@ -93,11 +107,9 @@ jobs:
           ./run build
       - name: Publish to PyPI
         if: "${{ inputs.publish-pypi }}"
-        env:
-          POETRY_PYPI_TOKEN_PYPI: "${{ secrets.PYPI_TOKEN }}"
-        run: |
-          # Publish to PyPI
-          poetry publish
+        uses: pypa/gh-action-pypi-publish@67339c736fd9354cd4f8cb0b744f2b82a74b5c70 # pinned to SHA for v1.12.3
+        with:
+          packages-dir: dist/
       - name: Create GitHub release
         uses: softprops/action-gh-release@7b4da11513bf3f43f9999e90eabced41ab8bb048 # pinned to SHA for v2.2.0
         with:
