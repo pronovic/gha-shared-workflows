@@ -107,8 +107,8 @@ jobs:
         if: "${{ inputs.persist-python-version == matrix.python }}"
         uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # pinned to SHA for v4.4.3
         with:
-          name: python-package-distributions
-          path: dist/
+          name: "python-package-distributions"
+          path: "dist/"
       - name: Upload coverage data to coveralls.io
         # duplicate submissions fail with a 422 error, so only submit on the first run attempt
         if: "${{ inputs.enable-coveralls && github.run_attempt == '1' }}"
