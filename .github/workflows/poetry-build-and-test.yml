@@ -72,6 +72,7 @@ jobs:
           # experimented with fetch-tags=true, which in theory would let us pull tags
           # without the hit of fetching all history, but it never works as expected.
           fetch-depth: 0
+          persist-credentials: false
       - name: Setup Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # pinned to SHA for v5.3.0
         with:
