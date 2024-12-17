@@ -48,6 +48,7 @@ jobs:
         with:
           password: "${{ secrets.PYPI_TOKEN }}"
           packages-dir: "dist/"
+          attestations: false  # can only be true for Trusted Publishing, which does not work for shared workflows
       - name: Create GitHub release
         uses: softprops/action-gh-release@e7a8f85e1c67a31e6ed99a94b41bd0b71bbee6b8 # pinned to SHA for v2.0.9
         with:
