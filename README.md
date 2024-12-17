@@ -50,7 +50,6 @@ The following input parameters are accepted:
 
 |Input|Type|Required|Default|Description|
 |-----|----|--------|-------|-----------|
-|`os-version`|String|Yes||Operating system to use for the build|
 |`timeout-minutes`|Number|No|`30`|Job timeout in minutes|
 |`publish-pypi`|Boolean|No|`false`|Whether to publish artifacts to PyPI|
 

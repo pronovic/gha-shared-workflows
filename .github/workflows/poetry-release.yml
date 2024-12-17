@@ -3,11 +3,6 @@ name: Release
 on:
   workflow_call:
     inputs:
-      os-version:
-        description: "Operating system to use for the build"
-        required: false
-        type: string
-        default: "ubuntu-latest"
       timeout-minutes:
         description: "Job timeout in minutes"
         required: false
@@ -24,7 +19,7 @@ jobs:
     defaults:
       run:
         shell: bash
-    runs-on: "${{ inputs.os-version }}"
+    runs-on: "ubuntu-latest"
     timeout-minutes: "${{ inputs.timeout-minutes }}"
     steps: 
       - name: Check out code
