@@ -51,6 +51,11 @@ on:
         required: false
         type: boolean
         default: true
+      persist-python-version:
+        description: "Which matrix Python version to persist artifacts for, if any"
+        required: false
+        type: string
+        default: "none"  # default will never match ${{ matrix.python }}, so we default to not persisting
 jobs:
   build:
     name: "Build"
@@ -90,10 +95,12 @@ jobs:
           # Install dependencies
           ./run install
       - name: Build artifacts
+        if: "${{ inputs.persist-python-version == matrix.python }}"
         run: |
           # Build artifacts
           ./run build
-      - name: Store artifacts
+      - name: Persist artifacts
+        if: "${{ inputs.persist-python-version == matrix.python }}"
         uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # pinned to SHA for v4.4.3
         with:
           name: python-package-distributions
