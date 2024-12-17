@@ -54,7 +54,7 @@ jobs:
           password: "${{ secrets.PYPI_TOKEN }}"
           packages-dir: "dist/"
       - name: Create GitHub release
-        uses: softprops/action-gh-release@7b4da11513bf3f43f9999e90eabced41ab8bb048 # pinned to SHA for v2.2.0
+        uses: softprops/action-gh-release@e7a8f85e1c67a31e6ed99a94b41bd0b71bbee6b8 # pinned to SHA for v2.0.9
         with:
           name: "Release ${{ github.ref_name }}"
           body_path: "${{ runner.temp }}/changes.md"
