@@ -51,7 +51,8 @@ jobs:
         if: "${{ inputs.publish-pypi }}"
         uses: pypa/gh-action-pypi-publish@67339c736fd9354cd4f8cb0b744f2b82a74b5c70 # pinned to SHA for v1.12.3
         with:
-          packages-dir: dist/
+          password: "${{ secrets.PYPI_TOKEN }}"
+          packages-dir: "dist/"
       - name: Create GitHub release
         uses: softprops/action-gh-release@7b4da11513bf3f43f9999e90eabced41ab8bb048 # pinned to SHA for v2.2.0
         with:
