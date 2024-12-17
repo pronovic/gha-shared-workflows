@@ -57,7 +57,7 @@ jobs:
     timeout-minutes: "${{ inputs.timeout-minutes }}"
     steps: 
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pinned to SHA for v4.2.2
         with:
           # We need fetch-depth=0 so that tags are pulled.  Unfortunately, this also pulls
           # along all history, so it's much slower for repos with lots of commits.  I've
@@ -65,11 +65,11 @@ jobs:
           # without the hit of fetching all history, but it never works as expected.
           fetch-depth: 0
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # pinned to SHA for v5.3.0
         with:
           python-version: "${{ inputs.python-version }}"
       - name: Setup Poetry
-        uses: pronovic/setup-poetry@v2
+        uses: pronovic/setup-poetry@4dc2ce9a7c5efc1ed93255070bdfef280999bb6f # pinned to SHA for v2.0.2
         with:
           version: "${{ inputs.poetry-version }}"
           plugins: "poetry-dynamic-versioning==${{ inputs.plugin-version }},${{ inputs.poetry-plugins }}"
@@ -98,7 +98,7 @@ jobs:
           # Publish to PyPI
           poetry publish
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@7b4da11513bf3f43f9999e90eabced41ab8bb048 # pinned to SHA for v2.2.0
         with:
           name: "Release ${{ github.ref_name }}"
           body_path: "${{ runner.temp }}/changes.md"

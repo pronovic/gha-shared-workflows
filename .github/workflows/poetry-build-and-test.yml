@@ -65,7 +65,7 @@ jobs:
     timeout-minutes: "${{ inputs.timeout-minutes }}"
     steps: 
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # pinned to SHA for v4.2.2
         with:
           # We need fetch-depth=0 so that tags are pulled.  Unfortunately, this also pulls
           # along all history, so it's much slower for repos with lots of commits.  I've
@@ -73,11 +73,11 @@ jobs:
           # without the hit of fetching all history, but it never works as expected.
           fetch-depth: 0
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # pinned to SHA for v5.3.0
         with:
           python-version: "${{ matrix.python }}"
       - name: Setup Poetry
-        uses: pronovic/setup-poetry@v2
+        uses: pronovic/setup-poetry@4dc2ce9a7c5efc1ed93255070bdfef280999bb6f # pinned to SHA for v2.0.2
         with:
           version: "${{ inputs.poetry-version }}"
           plugins: "poetry-dynamic-versioning==${{ inputs.plugin-version }},${{ inputs.poetry-plugins }}"
@@ -95,7 +95,7 @@ jobs:
       - name: Upload coverage data to coveralls.io
         # duplicate submissions fail with a 422 error, so only submit on the first run attempt
         if: "${{ inputs.enable-coveralls && github.run_attempt == '1' }}"
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8 # pinned to SHA for v2.3.4
         with:
           flag-name: "${{ runner.os }}-python${{ matrix.python }}"
           parallel: true
@@ -109,6 +109,6 @@ jobs:
     timeout-minutes: "${{ inputs.timeout-minutes }}"
     steps:
     - name: Upload coverage data to coveralls.io
-      uses: coverallsapp/github-action@v2
+      uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8 # pinned to SHA for v2.3.4
       with:
         parallel-finished: true
