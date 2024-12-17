@@ -30,12 +30,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pinned to SHA for v4.2.2
         with:
-          # We need fetch-depth=0 so that tags are pulled.  Unfortunately, this also pulls
-          # along all history, so it's much slower for repos with lots of commits.  I've
-          # experimented with fetch-tags=true, which in theory would let us pull tags
-          # without the hit of fetching all history, but it never works as expected.
-          fetch-depth: 0
-          persist-credentials: true # needed for softprops/action-gh-release
+          persist-credentials: false
       - name: Retrieve artifacts
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # pinned to SHA for v4.1.8
         with:
