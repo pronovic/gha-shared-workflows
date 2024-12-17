@@ -89,6 +89,15 @@ jobs:
         run: |
           # Install dependencies
           ./run install
+      - name: Build artifacts
+        run: |
+          # Build artifacts
+          ./run build
+      - name: Store artifacts
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # pinned to SHA for v4.4.3
+        with:
+          name: python-package-distributions
+          path: dist/
       - name: Run test suite
         run: |
           # Run the test suite

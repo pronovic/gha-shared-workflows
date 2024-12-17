@@ -3,44 +3,11 @@ name: Release
 on:
   workflow_call:
     inputs:
-      project-name:
-        description: "Simple name of the project, equivalen to PyPI package name"
-        required: true
-        type: string
       os-version:
         description: "Operating system to use for the build"
         required: false
         type: string
         default: "ubuntu-latest"
-      python-version:
-        description: "Version of Python to use for the build"
-        required: true
-        type: string
-      poetry-version:
-        description: "Version of Poetry to use for the build (>=1.8.0)"
-        required: false
-        default: "1.8.5"
-        type: string
-      plugin-version:
-        description: "Version of the poetry-dynamic-versioning plugin to use for the build (>=1.2.0)"
-        required: false
-        default: "1.3.0"
-        type: string
-      poetry-plugins:
-        description: "Comma-separated list of Poetry plugins to install, in addition to poetry-dynamic-versioning"
-        required: false
-        type: string
-        default: ""
-      poetry-cache-venv:
-        description: "Whether to cache the Poetry virtualenv"
-        required: false
-        type: boolean
-        default: true
-      poetry-cache-install:
-        description: "Whether to cache the Poetry install"
-        required: false
-        type: boolean
-        default: true
       timeout-minutes:
         description: "Job timeout in minutes"
         required: false
@@ -51,11 +18,6 @@ on:
         required: false
         type: boolean
         default: false
-      publish-env:
-        description: "Name of the publish environment in GitHub Actions"
-        required: false
-        type: string
-        default: "pypi"
 jobs:
   publish:
     name: "Publish"
@@ -64,11 +26,6 @@ jobs:
         shell: bash
     runs-on: "${{ inputs.os-version }}"
     timeout-minutes: "${{ inputs.timeout-minutes }}"
-    environment:
-      name: "{{ inputs.publish-env }}"
-      url: "https://pypi.org/p/{{ inputs.project-name }}"
-    permissions:
-      id-token: write # needed for PyPI trusted publishing
     steps: 
       - name: Check out code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pinned to SHA for v4.2.2
@@ -79,32 +36,17 @@ jobs:
           # without the hit of fetching all history, but it never works as expected.
           fetch-depth: 0
           persist-credentials: true # needed for softprops/action-gh-release
-      - name: Setup Python
-        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # pinned to SHA for v5.3.0
+      - name: Retrieve artifacts
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # pinned to SHA for v4.1.8
         with:
-          python-version: "${{ inputs.python-version }}"
-      - name: Setup Poetry
-        uses: pronovic/setup-poetry@4dc2ce9a7c5efc1ed93255070bdfef280999bb6f # pinned to SHA for v2.0.2
-        with:
-          version: "${{ inputs.poetry-version }}"
-          plugins: "poetry-dynamic-versioning==${{ inputs.plugin-version }},${{ inputs.poetry-plugins }}"
-          cache-venv: "${{ inputs.poetry-cache-venv }}"
-          cache-poetry: "${{ inputs.poetry-cache-install }}"
-          cache-suffix: "${{ inputs.plugin-version }}"  # safest to bump this when upgrading plugin above
-      - name: Install dependencies
-        run: |
-          # Install dependencies
-          ./run install
+          name: python-package-distributions
+          path: dist/
       - name: Generate release notes
         run: |
           # Generate release notes
           echo "## Changes" > "${{ runner.temp }}/changes.md"
           sed -n '/^Version /{:a;n;/^Version /q;p;$!ba}' Changelog | sed 's/^\s*\*/-/' | sed 's/\.$//' >> "${{ runner.temp }}/changes.md"
           cat "${{ runner.temp }}/changes.md"
-      - name: Build artifacts
-        run: |
-          # Build artifacts
-          ./run build
       - name: Publish to PyPI
         if: "${{ inputs.publish-pypi }}"
         uses: pypa/gh-action-pypi-publish@67339c736fd9354cd4f8cb0b744f2b82a74b5c70 # pinned to SHA for v1.12.3
