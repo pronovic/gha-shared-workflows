@@ -73,7 +73,7 @@ jobs:
         with:
           python-version: "${{ matrix.python }}"
       - name: Setup Poetry
-        uses: pronovic/setup-poetry@8ff68cc26837342fa8ac8cc998828154a9608779 # pinned to SHA for v2.0.5
+        uses: pronovic/setup-poetry@77c7590db62e7221cc94638261eba8a4c99558de # pinned to SHA for v2.0.6
         with:
           version: "${{ inputs.poetry-version }}"
           cache-venv: "${{ inputs.poetry-cache-venv }}"
