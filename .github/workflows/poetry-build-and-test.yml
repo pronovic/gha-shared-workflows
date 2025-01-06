@@ -12,20 +12,10 @@ on:
         required: true
         type: string
       poetry-version:
-        description: "Version of Poetry to use for the build (>=1.8.0)"
+        description: "Version of Poetry to use for the build (>=2.0.0)"
         required: false
-        default: "1.8.5"
+        default: "2.0.0"
         type: string
-      plugin-version:
-        description: "Version of the poetry-dynamic-versioning plugin to use for the build (>=1.2.0)"
-        required: false
-        default: "1.3.0"
-        type: string
-      poetry-plugins:
-        description: "Comma-separated list of Poetry plugins to install, in addition to poetry-dynamic-versioning"
-        required: false
-        type: string
-        default: ""
       poetry-cache-venv:
         description: "Whether to cache the Poetry virtualenv"
         required: false
@@ -83,13 +73,12 @@ jobs:
         with:
           python-version: "${{ matrix.python }}"
       - name: Setup Poetry
-        uses: pronovic/setup-poetry@4dc2ce9a7c5efc1ed93255070bdfef280999bb6f # pinned to SHA for v2.0.2
+        uses: pronovic/setup-poetry@8ff68cc26837342fa8ac8cc998828154a9608779 # pinned to SHA for v2.0.5
         with:
           version: "${{ inputs.poetry-version }}"
-          plugins: "poetry-dynamic-versioning==${{ inputs.plugin-version }},${{ inputs.poetry-plugins }}"
           cache-venv: "${{ inputs.poetry-cache-venv }}"
           cache-poetry: "${{ inputs.poetry-cache-install }}"
-          cache-suffix: "${{ inputs.plugin-version }}"  # safest to bump this when upgrading plugin above
+          cache-suffix: "000"
       - name: Install dependencies
         run: |
           # Install dependencies
