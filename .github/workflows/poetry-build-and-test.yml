@@ -14,7 +14,7 @@ on:
       poetry-version:
         description: "Version of Poetry to use for the build (>=2.0.0)"
         required: false
-        default: "2.0.0"
+        default: "2.0.1"
         type: string
       poetry-cache-venv:
         description: "Whether to cache the Poetry virtualenv"
