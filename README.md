@@ -2,6 +2,10 @@
 
 These are shared GitHub workflows used by my open source Python repositories.  The workflows rely on on my standard build process, which is based on [Poetry](https://python-poetry.org/) and my custom [run-script-framework](https://github.com/pronovic/run-script-framework).
 
+## Previous Standards
+
+Currently, the build process relies on the [UV](https://docs.astral.sh/uv/) build tool.  I migrated to UV starting in mid-2025. If you began using the run script framework prior to then, your repository probably relies on different standards, and the latest version of the workflows won't work for you.  Use `@v9` of the workflows instead of the latest version.
+
 ## PyPI Trusted Publishers
 
 As of this writing (in late 2024), the recommended best practice for publishing to PyPI is to use so-called [Trusted Publishers](https://docs.pypi.org/trusted-publishers/), also discussed in the [Python Packaging User Guide](https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/) and in this [postmortem of the Ultralytics supply chain attack](https://blog.pypi.org/posts/2024-12-11-ultralytics-attack-analysis/).  The Trusted Publishers mechanism allows the publishing process to use short-lived identity tokens, which are more secure than maintaining a long-lived PyPI API key in your GitHub repository secrets.
