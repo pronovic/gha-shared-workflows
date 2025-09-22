@@ -1,0 +1,110 @@
+# vim: set ft=yaml ts=2 sw=2:
+name: Build and Test
+on:
+  workflow_call:
+    inputs:
+      matrix-os-version:
+        description: "JSON array as a string, a list of operating systems for the matrix build"
+        required: true
+        type: string
+      matrix-python-version:
+        description: "JSON array as a string, a list of Python versions for the matrix build"
+        required: true
+        type: string
+      test-suite-command:
+        description: "Shell command used to execute the test suite"
+        required: false
+        type: string
+        default: "./run suite"
+      timeout-minutes:
+        description: "Job timeout in minutes"
+        required: false
+        type: number
+        default: 30
+      enable-coveralls:
+        description: "Whether to enable coverage reporting to coveralls.io"
+        required: false
+        type: boolean
+        default: false
+      persist-python-version:
+        description: "Which matrix Python version to persist artifacts for, if any"
+        required: false
+        type: string
+        default: "none"  # default will never match ${{ matrix.python }}, so we default to not persisting
+jobs:
+  build:
+    name: "Build"
+    strategy:
+      matrix:
+        os: "${{ fromJson(inputs.matrix-os-version) }}"
+        python: "${{ fromJson(inputs.matrix-python-version) }}"
+    defaults:
+      run:
+        shell: bash
+    runs-on: "${{ matrix.os }}"
+    timeout-minutes: "${{ inputs.timeout-minutes }}"
+    steps: 
+      - name: Check out code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # pinned to SHA for v4.2.2
+        with:
+          # We need fetch-depth=0 so that tags are pulled.  Unfortunately, this also pulls
+          # along all history, so it's much slower for repos with lots of commits.  I've
+          # experimented with fetch-tags=true, which in theory would let us pull tags
+          # without the hit of fetching all history, but it never works as expected.
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install UV
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "latest"
+          python-version: "${{ matrix.python }}"
+          enable-cache: true
+      - name: Install dependencies
+        run: |
+          # Install dependencies
+          ./run install
+      - name: Cache .ruff_cache
+        uses: actions/cache@v4
+        with:
+          path: ".ruff_cache"
+          key: "ruff-cache|${{ runner.os }}|${{ env.PYTHON_VERSION }}|${{ hashFiles('**/poetry.lock') }}"
+      - name: Cache .mypy_cache
+        uses: actions/cache@v4
+        with:
+          path: ".mypy_cache"
+          key: "mypy-cache|${{ runner.os }}|${{ env.PYTHON_VERSION }}|${{ hashFiles('**/poetry.lock') }}"
+      - name: Run test suite
+        run: |
+          # Run the test suite
+          ${{ inputs.test-suite-command }}
+      - name: Build artifacts
+        if: "${{ inputs.persist-python-version == matrix.python }}"
+        run: |
+          # Build artifacts
+          ./run build
+      - name: Persist artifacts
+        if: "${{ inputs.persist-python-version == matrix.python }}"
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # pinned to SHA for v4.4.3
+        with:
+          name: "python-package-distributions"
+          path: "dist/"
+      - name: Upload coverage data to coveralls.io
+        # duplicate submissions fail with a 422 error, so only submit on the first run attempt
+        if: "${{ inputs.enable-coveralls && github.run_attempt == '1' }}"
+        uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8 # pinned to SHA for v2.3.4
+        with:
+          flag-name: "${{ runner.os }}-python${{ matrix.python }}"
+          parallel: true
+          file: ".coverage.lcov"
+  coveralls:
+    name: "Coveralls"
+    # duplicate submissions fail with a 422 error, so only submit on the first run attempt
+    if: "${{ inputs.enable-coveralls && github.run_attempt == '1' }}"
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: "${{ inputs.timeout-minutes }}"
+    steps:
+    - name: Upload coverage data to coveralls.io
+      uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8 # pinned to SHA for v2.3.4
+      with:
+        parallel-finished: true
