@@ -89,6 +89,7 @@ jobs:
           name: "python-package-distributions"
           path: "dist/"
       - name: Upload coverage data to coveralls.io
+        if: "${{ inputs.enable-coveralls }}"
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # pinned to SHA for v2.3.6
         with:
           fail-on-error: false
@@ -97,6 +98,7 @@ jobs:
           file: ".coverage.lcov"
   coveralls:
     name: "Coveralls"
+    if: "${{ inputs.enable-coveralls }}"
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: "${{ inputs.timeout-minutes }}"
