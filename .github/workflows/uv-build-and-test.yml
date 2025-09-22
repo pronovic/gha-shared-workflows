@@ -62,9 +62,7 @@ jobs:
       - name: Capture Python version
         shell: bash
         run: |
-          uv run python --version
-          uv run python -c "import sys;print('Python %s' % sys.version)"
-          echo "PYTHON_VERSION=$(uv run python --version | sed 's/^Python //')" >> "$GITHUB_ENV"
+          echo "PYTHON_VERSION=$(.venv/bin/python3 --version | sed 's/^Python //')" >> "$GITHUB_ENV"
       - name: Install dependencies
         run: |
           # Install dependencies
