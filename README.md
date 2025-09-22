@@ -64,8 +64,6 @@ on:
     tags:
       - "v*"
   pull_request:
-    branches:
-      - main
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
