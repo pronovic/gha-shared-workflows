@@ -56,7 +56,7 @@ jobs:
       - name: Install UV
         uses: astral-sh/setup-uv@v6
         with:
-          version: "latest"
+          version-file: "pyproject.toml"  # controlled by required-version in the [tool.uv] section
           python-version: "${{ matrix.python }}"
           enable-cache: true
       - name: Install dependencies

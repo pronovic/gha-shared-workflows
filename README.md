@@ -27,6 +27,8 @@ The following input parameters are accepted:
 |`enable-coveralls`|Boolean|No|`false`|Whether to enable coverage reporting to coveralls.io|
 |`persist-python-version`|String|No|_none_|Which matrix Python version to persist artifacts for, if any|
 
+> **Note:** the version of UV is controlled by `pyproject.toml`.  Set `required-version` in the `[tool.uv]` section.
+
 In order to run the release workflow (discussed below), you must set `persist-python-version` to persist build artifacts from at _exactly one_ matrix build.  Normally, I do this for the oldest supported Python version on the Linux platform, which is what the example below shows.
 
 Starting with `v2` of the shared workflow, the default test suite command is:
