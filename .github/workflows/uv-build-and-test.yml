@@ -91,7 +91,7 @@ jobs:
       - name: Upload coverage data to coveralls.io
         # duplicate submissions fail with a 422 error, so only submit on the first run attempt
         if: "${{ inputs.enable-coveralls && github.run_attempt == '1' }}"
-        uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8 # pinned to SHA for v2.3.4
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # pinned to SHA for v2.3.6
         with:
           flag-name: "${{ runner.os }}-python${{ matrix.python }}"
           parallel: true
@@ -105,6 +105,6 @@ jobs:
     timeout-minutes: "${{ inputs.timeout-minutes }}"
     steps:
     - name: Upload coverage data to coveralls.io
-      uses: coverallsapp/github-action@cfd0633edbd2411b532b808ba7a8b5e04f76d2c8 # pinned to SHA for v2.3.4
+      uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # pinned to SHA for v2.3.6
       with:
         parallel-finished: true
