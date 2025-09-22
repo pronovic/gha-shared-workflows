@@ -45,7 +45,7 @@ jobs:
     timeout-minutes: "${{ inputs.timeout-minutes }}"
     steps: 
       - name: Check out code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # pinned to SHA for v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # pinned to SHA for v4.2.2
         with:
           # We need fetch-depth=0 so that tags are pulled.  Unfortunately, this also pulls
           # along all history, so it's much slower for repos with lots of commits.  I've
@@ -54,7 +54,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Install UV
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@b75a909f75acd358c2196fb9a5f1299a9a8868a4 # pinned to SHA for v6.7.0
         with:
           version-file: "pyproject.toml"  # controlled by required-version in the [tool.uv] section
           python-version: "${{ matrix.python }}"
@@ -64,12 +64,12 @@ jobs:
           # Install dependencies
           ./run install
       - name: Cache .ruff_cache
-        uses: actions/cache@v4
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # pinned to SHA for v4.2.4
         with:
           path: ".ruff_cache"
           key: "ruff-cache|${{ runner.os }}|${{ env.UV_PYTHON }}|${{ hashFiles('**/uv.lock') }}"
       - name: Cache .mypy_cache
-        uses: actions/cache@v4
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # pinned to SHA for v4.2.4
         with:
           path: ".mypy_cache"
           key: "mypy-cache|${{ runner.os }}|${{ env.UV_PYTHON }}|${{ hashFiles('**/uv.lock') }}"
