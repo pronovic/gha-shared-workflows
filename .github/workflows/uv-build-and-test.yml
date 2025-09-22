@@ -59,10 +59,6 @@ jobs:
           version: "latest"
           python-version: "${{ matrix.python }}"
           enable-cache: true
-      - name: Capture Python version
-        shell: bash
-        run: |
-          echo "PYTHON_VERSION=$(.venv/bin/python3 --version | sed 's/^Python //')" >> "$GITHUB_ENV"
       - name: Install dependencies
         run: |
           # Install dependencies
@@ -71,12 +67,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ".ruff_cache"
-          key: "ruff-cache|${{ runner.os }}|${{ env.PYTHON_VERSION }}|${{ hashFiles('**/uv.lock') }}"
+          key: "ruff-cache|${{ runner.os }}|${{ env.UV_PYTHON }}|${{ hashFiles('**/uv.lock') }}"
       - name: Cache .mypy_cache
         uses: actions/cache@v4
         with:
           path: ".mypy_cache"
-          key: "mypy-cache|${{ runner.os }}|${{ env.PYTHON_VERSION }}|${{ hashFiles('**/uv.lock') }}"
+          key: "mypy-cache|${{ runner.os }}|${{ env.UV_PYTHON }}|${{ hashFiles('**/uv.lock') }}"
       - name: Run test suite
         run: |
           # Run the test suite
