@@ -89,17 +89,14 @@ jobs:
           name: "python-package-distributions"
           path: "dist/"
       - name: Upload coverage data to coveralls.io
-        # duplicate submissions fail with a 422 error, so only submit on the first run attempt
-        if: "${{ inputs.enable-coveralls && github.run_attempt == '1' }}"
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # pinned to SHA for v2.3.6
         with:
+          fail-on-error: false
           flag-name: "${{ runner.os }}-python${{ matrix.python }}"
           parallel: true
           file: ".coverage.lcov"
   coveralls:
     name: "Coveralls"
-    # duplicate submissions fail with a 422 error, so only submit on the first run attempt
-    if: "${{ inputs.enable-coveralls && github.run_attempt == '1' }}"
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: "${{ inputs.timeout-minutes }}"
@@ -107,4 +104,5 @@ jobs:
     - name: Upload coverage data to coveralls.io
       uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # pinned to SHA for v2.3.6
       with:
+        fail-on-error: false
         parallel-finished: true
