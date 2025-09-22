@@ -1,6 +1,6 @@
 # Shared GitHub Workflows
 
-These are shared GitHub workflows used by my open source Python repositories.  The workflows rely on on my standard build process, which is based on my custom [run-script-framework](https://github.com/pronovic/run-script-framework).
+These are shared GitHub workflows used by my open source Python repositories.  The workflows rely on my standard build process, which is implemented in the [run-script-framework](https://github.com/pronovic/run-script-framework) repository.
 
 ## Previous Standards
 
