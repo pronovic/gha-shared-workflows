@@ -8,7 +8,7 @@ Currently, the build process relies on the [UV](https://docs.astral.sh/uv/) buil
 
 ## PyPI Trusted Publishers
 
-As of this writing (in mid-2025), the recommended best practice for publishing to PyPI is to use so-called [Trusted Publishers](https://docs.pypi.org/trusted-publishers/), also discussed in the [Python Packaging User Guide](https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/) and in this [postmortem of the Ultralytics supply chain attack](https://blog.pypi.org/posts/2024-12-11-ultralytics-attack-analysis/).  The Trusted Publishers mechanism allows the publishing process to use short-lived identity tokens, which are more secure than maintaining a long-lived PyPI API key in your GitHub repository secrets.
+As of this writing (in late 2026), the recommended best practice for publishing to PyPI is to use so-called [Trusted Publishers](https://docs.pypi.org/trusted-publishers/), also discussed in the [Python Packaging User Guide](https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/) and in this [postmortem of the Ultralytics supply chain attack](https://blog.pypi.org/posts/2024-12-11-ultralytics-attack-analysis/).  The Trusted Publishers mechanism allows the publishing process to use short-lived identity tokens, which are more secure than maintaining a long-lived PyPI API key in your GitHub repository secrets.
 
 GitHub Actions is a supported publisher.  Unfortunately, as discussed on the [Troubleshooting](https://docs.pypi.org/trusted-publishers/troubleshooting/) page and detailed in [pypi/warehouse issue #11096](https://github.com/pypi/warehouse/issues/11096), the trusted publishing mechanism does not yet support reusable GitHub Actions.  Starting with `@v7` of the release workflow, I do rely on the official [PyPI Publish](https://github.com/pypa/gh-action-pypi-publish) shared action to publish artifacts.  However, there's no way to support Trusted Publishing with full attestations for the time being.
 
@@ -76,23 +76,23 @@ jobs:
     secrets: inherit
     with:
       matrix-os-version: "[ 'ubuntu-latest' ]"
-      matrix-python-version: "[ '3.10', '3.11', '3.12', '3.13' ]"  # run Linux tests on all supported Python versions
+      matrix-python-version: "[ '3.12', '3.13', '3.14', '3.14t', '3.15', '3.15t' ]"  # run Linux tests on all supported Python versions
       enable-coveralls: true  # only report to coveralls.io for tests that run on Linux
-      persist-python-version: "3.10"  # persist artifacts for the oldest supported Python version
+      persist-python-version: "3.12"  # persist artifacts for the oldest supported Python version
   macos-build-and-test:
     name: "MacOS"
     uses: pronovic/gha-shared-workflows/.github/workflows/uv-build-and-test.yml@v10
     secrets: inherit
     with:
       matrix-os-version: "[ 'macos-latest' ]"
-      matrix-python-version: "[ '3.13' ]"  # only run MacOS tests on latest Python
+      matrix-python-version: "[ '3.15', '3.15t' ]"  # only run MacOS tests on latest Python
   windows-build-and-test:
     name: "Windows"
     uses: pronovic/gha-shared-workflows/.github/workflows/uv-build-and-test.yml@v10
     secrets: inherit
     with:
       matrix-os-version: "[ 'windows-latest' ]"
-      matrix-python-version: "[ '3.13' ]"  # only run Windows tests on latest Python
+      matrix-python-version: "[ '3.15', '3.15t' ]"  # only run Windows tests on latest Python
   release:
     name: "Release"
     if: github.ref_type == 'tag'
