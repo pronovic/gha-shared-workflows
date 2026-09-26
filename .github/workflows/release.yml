@@ -39,7 +39,7 @@ jobs:
           cat "${{ runner.temp }}/changes.md"
       - name: Publish to PyPI
         if: "${{ inputs.publish-pypi }}"
-        uses: pypa/gh-action-pypi-publish@67339c736fd9354cd4f8cb0b744f2b82a74b5c70 # pinned to SHA for v1.12.3
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # pinned to SHA for v1.14.2, which supports core metadata 2.5
         with:
           password: "${{ secrets.PYPI_TOKEN }}"
           packages-dir: "dist/"
